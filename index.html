@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Playbook">
+    <meta name="theme-color" content="#1a2744">
+    <meta name="description" content="Playbook Agent Immobilier — Système complet de vente et conversion exclusivité">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231a2744' width='192' height='192'/><text x='50%' y='50%' font-size='80' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>P</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%231a2744' width='180' height='180' rx='40'/><text x='90' y='90' font-size='80' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>P</text></svg>">
+    <title>Playbook — Agent Immobilier</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            line-height: 1.6;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            background: white;
+            min-height: 100vh;
+        }
+        
+        .hero {
+            background: #1a2744;
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: left;
+        }
+        
+        .hero-tag {
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #D4A017;
+            margin-bottom: 0.4rem;
+        }
+        
+        .hero h1 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 4px;
+            padding: 0.75rem;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-btn {
+            font-size: 13px;
+            padding: 7px 13px;
+            border-radius: 20px;
+            border: 0.5px solid #d0d0d0;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .nav-btn.active {
+            background: #1a2744;
+            color: white;
+            border-color: #1a2744;
+        }
+        
+        .nav-btn:active {
+            opacity: 0.7;
+        }
+        
+        .content {
+            padding: 1rem;
+        }
+        
+        .tab {
+            display: none;
+        }
+        
+        .tab.active {
+            display: block;
+        }
+        
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #999;
+            margin: 1.25rem 0 0.6rem 0;
+            font-weight: 500;
+        }
+        
+        .section-label:first-child {
+            margin-top: 0;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.875rem;
+            margin-bottom: 8px;
+            border-left: 3px solid transparent;
+        }
+        
+        .card.gold {
+            border-left-color: #B8860B;
+        }
+        
+        .card.navy {
+            border-left-color: #1a2744;
+        }
+        
+        .card.red {
+            border-left-color: #C8102E;
+        }
+        
+        .card.kravitz {
+            border-left-color: #0F6E56;
+        }
+        
+        .card-meta {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 5px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .tag.new {
+            background: #d4f0d4;
+            color: #228B22;
+        }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        .card-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .card-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .script-block {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 0.7rem 0.875rem;
+            margin-bottom: 6px;
+            border-left: 2px solid #1a2744;
+        }
+        
+        .script-role {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 3px;
+        }
+        
+        .script-text {
+            font-size: 14px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .timeline-day {
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+            background: #1a2744;
+            padding: 3px 7px;
+            border-radius: 4px;
+            min-width: 48px;
+            text-align: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-list {
+            list-style: none;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .timeline-list li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 3px;
+        }
+        
+        .timeline-list li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: #D4A017;
+            font-weight: 500;
+        }
+        
+        .phase-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .phase-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+        
+        .phase-num {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #D4A017;
+            margin-bottom: 4px;
+        }
+        
+        .phase-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .phase-desc {
+            font-size: 13px;
+            color: #999;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        
+        .phase-questions {
+            list-style: none;
+            font-size: 13px;
+        }
+        
+        .phase-questions li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 3px;
+            color: #999;
+        }
+        
+        .phase-questions li::before {
+            content: '?';
+            position: absolute;
+            left: 0;
+            color: #C8102E;
+            font-weight: 500;
+        }
+        
+        .objection {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .objection-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .objection-trigger:active {
+            background: #f5f5f5;
+        }
+        
+        .objection-text {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .objection-arrow {
+            font-size: 16px;
+            color: #999;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        
+        .objection-responses {
+            padding: 0 0.875rem 0.875rem;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .objection-responses.open {
+            display: flex;
+        }
+        
+        .response {
+            font-size: 14px;
+            color: #1a1a1a;
+            font-weight: 500;
+            padding-left: 12px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .response::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #B8860B;
+        }
+        
+        .response-kravitz {
+            font-size: 13px;
+            color: #0F6E56;
+            font-style: italic;
+            padding-left: 12px;
+            margin-top: 4px;
+            position: relative;
+        }
+        
+        .response-kravitz::before {
+            content: 'K: ';
+            position: absolute;
+            left: 0;
+            font-weight: 500;
+            font-style: normal;
+        }
+        
+        .rule-box {
+            background: #1a2744;
+            color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.25rem 0;
+        }
+        
+        .rule-box p {
+            font-size: 14px;
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rule-box strong {
+            color: #D4A017;
+            font-style: normal;
+        }
+        
+        .rule-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .separator {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 1rem 0;
+        }
+        
+        .footer {
+            padding: 1rem;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 1.5rem;
+        }
+        
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #1a2744;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .dark-mode-toggle:active {
+            opacity: 0.8;
+        }
+        
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .container {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .card,
+        body.dark-mode .phase-card,
+        body.dark-mode .objection,
+        body.dark-mode .script-block {
+            background: #333;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .card-text,
+        body.dark-mode .script-text,
+        body.dark-mode .timeline-list,
+        body.dark-mode .phase-desc,
+        body.dark-mode .objection-text,
+        body.dark-mode .response {
+            color: #d0d0d0;
+        }
+        
+        body.dark-mode .nav {
+            background: #2a2a2a;
+            border-bottom-color: #444;
+        }
+        
+        body.dark-mode .nav-btn {
+            background: #333;
+            border-color: #444;
+            color: #999;
+        }
+        
+        body.dark-mode .nav-btn.active {
+            background: #1a2744;
+            color: white;
+            border-color: #1a2744;
+        }
+        
+        body.dark-mode .separator {
+            background: #444;
+        }
+        
+        body.dark-mode .section-label,
+        body.dark-mode .card-meta,
+        body.dark-mode .card-note,
+        body.dark-mode .script-role {
+            color: #888;
+        }
+        
+        body.dark-mode .dark-mode-toggle {
+            background: #D4A017;
+            color: #1a1a1a;
+        }
+        
+        body.dark-mode .objection-trigger:active {
+            background: #444;
+        }
+        
+        body.dark-mode .rule-box {
+            background: #1a2744;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <div class="hero-tag">Playbook Master v2</div>
+        <h1>Système complet — vente & conversion exclusivité</h1>
+        <p>Ta méthode · Sharran Srivatsaa · Andrew Undem · Jackie Kravitz</p>
+    </div>
+    
+    <div class="nav" id="nav-container">
+        <button class="nav-btn active" data-tab="methode">Ma méthode</button>
+        <button class="nav-btn" data-tab="rdv">RDV</button>
+        <button class="nav-btn" data-tab="kravitz">Kravitz +</button>
+        <button class="nav-btn" data-tab="phrases">Phrases</button>
+        <button class="nav-btn" data-tab="objections">Objections</button>
+        <button class="nav-btn" data-tab="sharran">Sharran</button>
+        <button class="nav-btn" data-tab="suivi">Suivi</button>
+    </div>
+    
+    <div class="content">
+        
+        <!-- TAB: MA METHODE -->
+        <div class="tab active" id="tab-methode">
+            <div class="section-label">Chronologie de mise en vente</div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-day">J–10</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Préparation complète du dossier</div>
+                        <ul class="timeline-list">
+                            <li>Documents syndic, PV d'AG</li>
+                            <li>Coordination diagnostics</li>
+                            <li>Photos + visite virtuelle 360°</li>
+                            <li>Vidéo réseaux sociaux</li>
+                            <li>Retouche photos, rédaction annonce</li>
+                            <li>Tracts + email fichier acquéreurs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">J–3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Lancement pré-diffusion</div>
+                        <ul class="timeline-list">
+                            <li>Fichier acquéreurs agence</li>
+                            <li>Prospection physique quartier</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">J 0</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Diffusion maximale</div>
+                        <ul class="timeline-list">
+                            <li>Réseau Amanda — 50 agences</li>
+                            <li>Portails digitaux</li>
+                            <li>Tout le réseau agence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Arguments vendeur</div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Réseau Amanda</span></div>
+                <div class="card-text">"Votre bien sera présenté aux acquéreurs de 50 agences parisiennes dès le premier jour — impossible en mandat simple."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Avance J–3</span></div>
+                <div class="card-text">"Avant même d'être en ligne, votre bien est proposé à notre fichier. En simple, vous partez avec 10 jours de retard."</div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Nouveau</span></div>
+                <div class="card-text">"Le marketing passif, c'est ce que font 99,9% des agents. Moi, je suis en contact avec 40 à 50 personnes par jour qui cherchent à acheter ou vendre."</div>
+            </div>
+        </div>
+        
+        <!-- TAB: RDV ESTIMATION -->
+        <div class="tab" id="tab-rdv">
+            <div class="section-label">Avant d'entrer — mandat pré-rempli (Kravitz)</div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Nouveau</span></div>
+                <div class="card-title">Mandat pré-rempli sur la table dès l'arrivée</div>
+                <div class="card-text">Nom, adresse, honoraires, durée déjà remplis. Prix vide. Signer devient naturel.</div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Structure du RDV — 3 phases</div>
+            
+            <div class="phase-grid">
+                <div class="phase-card">
+                    <div class="phase-num">Phase 1</div>
+                    <div class="phase-title">Diagnostic (0 prix)</div>
+                    <div class="phase-desc">Tu poses des questions, tu ne parles pas prix.</div>
+                    <ul class="phase-questions">
+                        <li>Pourquoi vous vendez ?</li>
+                        <li>Délai idéal ?</li>
+                        <li>Déjà testé le marché ?</li>
+                        <li>Qu'attendez-vous d'un agent ?</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-num">Phase 2</div>
+                    <div class="phase-title">Autorité marché</div>
+                    <div class="phase-desc">Tu construis une vision. Tu cadres le marché.</div>
+                    <ul class="phase-questions">
+                        <li>Prix haut réaliste</li>
+                        <li>Prix rapide</li>
+                        <li>Risque surévaluation</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-num">Phase 3</div>
+                    <div class="phase-title">Pivot exclusif</div>
+                    <div class="phase-desc">Tu enchaînes après le prix. Décision binaire.</div>
+                    <ul class="phase-questions">
+                        <li>Diffusion OU stratégie</li>
+                        <li>Exclusif 30 jours</li>
+                        <li>Tu prends la responsabilité</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Script pivot — mot pour mot</div>
+            
+            <div class="script-block">
+                <div class="script-role">Ouverture</div>
+                <div class="script-text">"Je vais être transparent : je peux vendre votre bien en simple… mais je ne le recommande jamais si l'objectif est le meilleur prix et un délai court."</div>
+            </div>
+            
+            <div class="script-block">
+                <div class="script-role">Diagnostic</div>
+                <div class="script-text">"Votre bien a besoin de 3 choses : visibilité, stratégie de prix, maîtrise des acheteurs. En simple, vous perdez le contrôle sur les deux derniers."</div>
+            </div>
+            
+            <div class="script-block">
+                <div class="script-role">Choix contrôlé</div>
+                <div class="script-text">"Je peux travailler sur deux formats : soit diffusion simple sans pilotage, soit exclusif 30 jours avec stratégie complète."</div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Nouveau</span></div>
+                <div class="card-title">La question miroir avec hochement de tête</div>
+                <div class="card-text">"Mon objectif est de vendre votre bien au meilleur prix, dans les meilleurs délais, avec le moins de contraintes possible. C'est bien ce que vous souhaitez, n'est-ce pas ?"</div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Exercice prix (Kravitz)</div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Nouveau</span></div>
+                <div class="card-title">Pensons comme un acquéreur</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Pensons comme un acquéreur. Vous visitez un appartement à 450 000 €. Vous trouvez un bien similaire, même prix, mais meilleure exposition et cuisine rénovée. Lequel choisissez-vous ?"</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vendeur</div>
+                    <div class="script-text">"Le deuxième, bien sûr."</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Exactement. Les acquéreurs raisonnent comme ça. Votre bien est en compétition avec 9 autres. Il va choisir le meilleur rapport qualité/prix."</div>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Silence sur le prix (moment critique)</div>
+            
+            <div class="card red">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Critique</span></div>
+                <div class="card-text">"Sur la base de tout ce que nous avons vu — ventes récentes et biens en concurrence — à quel prix pensez-vous que nous devrions positionner votre bien ?"</div>
+                <div class="card-note">[ SILENCE TOTAL. Ne pas parler en premier. Attendre. ]</div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Risque inversé (Sharran)</div>
+            
+            <div class="card red">
+                <div class="card-text">"Le vrai risque n'est pas de signer un exclusif. Le vrai risque, c'est de perdre du temps sur un bien mal positionné."</div>
+            </div>
+        </div>
+        
+        <!-- TAB: KRAVITZ -->
+        <div class="tab" id="tab-kravitz">
+            <div class="section-label">8 techniques Kravitz à intégrer immédiatement</div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Priorité 1</span></div>
+                <div class="card-title">Mandat pré-rempli + stylo</div>
+                <div class="card-text">Poser sans un mot dès l'arrivée. Signer devient naturel.</div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Priorité 1</span></div>
+                <div class="card-title">Les 3 piliers de la décision</div>
+                <div class="card-text">Face au "je réfléchis" — tu décomposes en 3 "oui" séparés. Chaque oui cumule. À la fin, le refus est injustifiable.</div>
+                
+                <div class="script-block" style="margin-top: 0.5rem;">
+                    <div class="script-role">Pilier 1</div>
+                    <div class="script-text">"Votre motivation à vendre — vous m'avez dit que vous souhaitez [projet] d'ici [délai]. Cette décision est déjà prise ?"</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Pilier 2</div>
+                    <div class="script-text">"Le prix que nous avons fixé ensemble. [PRIX] est le bon positionnement ?"</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Pilier 3</div>
+                    <div class="script-text">"L'agent que vous choisissez. Pensez-vous que je suis l'agent qu'il vous faut ?"</div>
+                </div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span><span class="tag new">Priorité 1</span></div>
+                <div class="card-title">Hochement de tête systématique</div>
+                <div class="card-text">À chaque point clé : "C'est bien ce que vous souhaitez, n'est-ce pas ?" en hochant la tête. Micro-engagements progressifs.</div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span></div>
+                <div class="card-title">L'agent qui baisse ses honoraires</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Si cet agent n'a pas le courage de défendre sa propre rémunération face à vous... comment va-t-il défendre votre prix face à un acquéreur qui négocie ?"</div>
+                </div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span></div>
+                <div class="card-title">Révéler le mécanisme de surévaluation</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Certains agents acceptent un prix trop élevé pour obtenir le mandat — votre bien devient leur outil de prospection pour d'autres clients."</div>
+                </div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span></div>
+                <div class="card-title">Marketing passif vs actif</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Passif (99,9%)</div>
+                    <div class="script-text">"Ils publient sur SeLoger, PAP, Bien'ici et attendent."</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Actif (toi)</div>
+                    <div class="script-text">"Moi, je suis en contact avec 40-50 personnes par jour qui cherchent. Je prospecte activement."</div>
+                </div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span></div>
+                <div class="card-title">Objection travaux</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Si un acquéreur se présentait aujourd'hui et était prêt à acheter à un prix qui vous convient — est-ce que vous lui vendriez ?"</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Suite</div>
+                    <div class="script-text">"Alors mettons-le sur le marché maintenant. Les acquéreurs sont des moments dans le temps."</div>
+                </div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz</span></div>
+                <div class="card-title">Agent spécialisé dans mon quartier</div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Si vous étiez acquéreur, voudriez-vous voir uniquement les biens d'un seul agent ou tous les biens correspondant à votre budget ?"</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vendeur</div>
+                    <div class="script-text">"Tous les biens, bien sûr."</div>
+                </div>
+                
+                <div class="script-block">
+                    <div class="script-role">Vous</div>
+                    <div class="script-text">"Exactement. Moi j'élargis le vivier d'acquéreurs potentiels."</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAB: PHRASES CLES -->
+        <div class="tab" id="tab-phrases">
+            <div class="section-label">Positionnement</div>
+            
+            <div class="card gold">
+                <div class="card-text">"Je ne travaille pas un bien pour le diffuser, mais pour le vendre."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-text">"Mon rôle, ce n'est pas de mettre une annonce en ligne, c'est de piloter une vente."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-text">"Je ne fais pas d'estimation pour faire plaisir, je fais une stratégie de vente."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-text">"Si on travaille ensemble, c'est pour obtenir un résultat, pas pour tester le marché."</div>
+            </div>
+            
+            <div class="separator"></div>
+            <div class="section-label">Mandat simple vs exclusif</div>
+            
+            <div class="card navy">
+                <div class="card-text">"Le mandat simple vous donne des contacts, pas une stratégie."</div>
+            </div>
+            
+            <div class="card navy">
+                <div class="card-text">"Plus il y a d'agences, moins il y a de direction."</div>
+            </div>
+            
+            <div class="card navy">
+                <div class="card-text">"Un bien bien vendu est toujours un bien bien contrôlé."</div>
+            </div>
+            
+            <div class="card navy">
+                <div class="card-text">"Sans exclusivité, personne ne pilote vraiment le prix."</div>
+            </div>
+            
+            <div class="separator"></div>
+            <div class="section-label">Preuve sociale</div>
+            
+            <div class="card gold">
+                <div class="card-text">"Les biens en exclusif que je pilote partent plus vite dans ce secteur, c'est factuel."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-text">"Dans cette zone, les biens bien positionnés partent en 18 à 25 jours."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-text">"J'ai vendu plusieurs biens dans un rayon de 10 minutes récemment."</div>
+            </div>
+            
+            <div class="separator"></div>
+            <div class="section-label">Closing</div>
+            
+            <div class="card red">
+                <div class="card-text">"On se donne 30 jours pour faire les choses correctement."</div>
+            </div>
+            
+            <div class="card red">
+                <div class="card-text">"Je prends la responsabilité de la vente si vous me donnez le cadre."</div>
+            </div>
+            
+            <div class="card red">
+                <div class="card-text">"Le reste du marché diffuse. Moi, je pilote."</div>
+            </div>
+            
+            <div class="card red">
+                <div class="card-text">"Un bien, une stratégie, un résultat."</div>
+            </div>
+        </div>
+        
+        <!-- TAB: OBJECTIONS -->
+        <div class="tab" id="tab-objections">
+            <div class="section-label">Arbre NLP — réponses automatiques</div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="0">
+                    <span class="objection-text">"On veut tester plusieurs agences"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Le marché choisit toujours une direction, pas plusieurs."</div>
+                    <div class="response">"Ce n'est pas un casting, c'est une vente."</div>
+                    <div class="response-kravitz">Si résistance : "Sur la base de tout ce que je vous ai montré, pensez-vous que je suis cet agent ?"</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="1">
+                    <span class="objection-text">"On préfère le mandat simple"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Je comprends. Je ne serai pas votre meilleur choix."</div>
+                    <div class="response">"Je ne peux pas piloter sans contrôle sur la stratégie de prix."</div>
+                    <div class="response-kravitz">Relance : "En simple, vous avez de la diffusion. Moi je propose une stratégie."</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="2">
+                    <span class="objection-text">"On veut réfléchir"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"La décision est déjà dans ce qu'on vient de voir ensemble."</div>
+                    <div class="response">"Le marché ne réfléchit pas longtemps."</div>
+                    <div class="response-kravitz">3 piliers : "Votre motivation, le prix, et l'agent. Sur chacun, la décision est prise ?"</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="3">
+                    <span class="objection-text">"Vous pouvez baisser vos honoraires ?"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Non, mes honoraires sont de [X%]."</div>
+                    <div class="response-kravitz">Si résistance : "Si cet agent n'a pas le courage de défendre sa rémunération... comment va-t-il défendre votre prix ?"</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="4">
+                    <span class="objection-text">"Un autre agent m'a proposé un prix plus élevé"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Si je pensais pouvoir vendre plus cher, je vous le dirais — je gagne un % du prix."</div>
+                    <div class="response-kravitz">Révélation : "Certains agents surévaluent pour obtenir le mandat — votre bien devient leur outil de prospection."</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="5">
+                    <span class="objection-text">"Je veux afficher plus cher"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Les biens qui se vendent le mieux sont bien positionnés dès le départ."</div>
+                    <div class="response-kravitz">Condition : "Si en 10 jours pas de visites ni d'offres, nous ajustons. Vous en êtes d'accord ?"</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="6">
+                    <span class="objection-text">"On n'est pas pressés"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"C'est là que les biens se dégradent le plus lentement."</div>
+                    <div class="response">"Le temps n'améliore jamais un mauvais positionnement."</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="7">
+                    <span class="objection-text">"Je veux faire des travaux avant"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response-kravitz">Kravitz : "Si un acquéreur se présentait aujourd'hui à un prix qui vous convient — vous lui vendriez ?" → "Alors mettons-le sur le marché maintenant."</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="8">
+                    <span class="objection-text">"Je préfère un agent spécialisé dans mon quartier"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response-kravitz">Kravitz : "Si vous étiez acquéreur, voudriez-vous voir tous les biens ou seulement d'un agent ?" → "Exactement. Moi j'élargis le vivier."</div>
+                </div>
+            </div>
+            
+            <div class="objection">
+                <button class="objection-trigger" data-objection="9">
+                    <span class="objection-text">"On veut le meilleur prix"</span>
+                    <span class="objection-arrow">▾</span>
+                </button>
+                <div class="objection-responses">
+                    <div class="response">"Le meilleur prix vient d'un cadre, pas d'une diffusion."</div>
+                    <div class="response">"Sans stratégie unique, il n'y a pas de prix optimisé."</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAB: SHARRAN & UNDEM -->
+        <div class="tab" id="tab-sharran">
+            <div class="section-label">Phrases mémorisées — adaptées France</div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Undem × 5</span></div>
+                <div class="card-title" style="font-size: 14px;">"Je ne spécule pas avec vos fonds propres."</div>
+                <div class="card-note" style="font-size: 11px;">Retourne l'angoisse de confiance en sécurité absolue.</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Sharran × 6</span></div>
+                <div class="card-title" style="font-size: 14px;">"Le prix affiché n'est qu'une invitation — ce n'est pas votre prix de vente."</div>
+                <div class="card-note" style="font-size: 11px;">Dissocie l'identité du vendeur du chiffre.</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Sharran × 3</span></div>
+                <div class="card-title" style="font-size: 14px;">"Notre mission : une offre que vous voulez, au prix que vous voulez."</div>
+                <div class="card-note" style="font-size: 11px;">Recentre sur le résultat vendeur.</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Undem × 4</span></div>
+                <div class="card-title" style="font-size: 14px;">"La plupart des agences commercialisent encore comme en 2010."</div>
+                <div class="card-note" style="font-size: 11px;">Différencie sans attaquer un concurrent.</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Undem × 5</span></div>
+                <div class="card-title" style="font-size: 14px;">"Je ne vous recommanderai jamais de dépenser un euro si vous n'en récupérez pas trois sur le prix."</div>
+                <div class="card-note" style="font-size: 11px;">Positionne comme conseiller financier.</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">Sharran & Undem</span></div>
+                <div class="card-title" style="font-size: 14px;">"Connectez-vous à notre historique de résultats concrets dans ce secteur."</div>
+                <div class="card-note" style="font-size: 11px;">L'agent offre un accès à un système éprouvé.</div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Principes fondamentaux</div>
+            
+            <div class="card navy">
+                <div class="card-meta"><span class="tag">Show, don't tell</span></div>
+                <div class="card-text">Montre-le. Dessine la timeline. Pose les vrais documents. Les vrais résultats chiffrés.</div>
+            </div>
+            
+            <div class="card navy">
+                <div class="card-meta"><span class="tag">Contrôle du cadre</span></div>
+                <div class="card-text">Celui qui interroge contrôle. Tu poses les questions. Tu définis les règles du jeu.</div>
+            </div>
+            
+            <div class="card navy">
+                <div class="card-meta"><span class="tag">Attaque la pratique</span></div>
+                <div class="card-text">"La plupart des agences font encore comme avant." Le vendeur conclut seul.</div>
+            </div>
+            
+            <div class="card kravitz">
+                <div class="card-meta"><span class="tag">Kravitz — principe</span></div>
+                <div class="card-text">"Les vendeurs sont le miroir de l'agent. C'est la répétition du script qui crée la confiance."</div>
+            </div>
+        </div>
+        
+        <!-- TAB: SUIVI -->
+        <div class="tab" id="tab-suivi">
+            <div class="section-label">Protocole de suivi post-estimation</div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">J+1</span></div>
+                <div class="card-text">"Suite à notre échange, je confirme que le bien peut se travailler de deux façons. Si vous voulez, je peux vous dire ce que je ferais concrètement en exclusif pour optimiser le prix."</div>
+            </div>
+            
+            <div class="card gold">
+                <div class="card-meta"><span class="tag">J+3</span></div>
+                <div class="card-text">"Je viens de rentrer un bien similaire en exclusif qui génère déjà des visites. Ça illustre bien la différence de stratégie."</div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Score vendeur — potentiel exclusif</div>
+            
+            <div class="card">
+                <div style="font-size: 13px; font-weight: 500; color: #1a1a1a; margin-bottom: 8px;">Évalue chaque vendeur pendant le diagnostic</div>
+                
+                <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #e0e0e0;">
+                    <span style="font-size: 12px; color: #666; flex: 1;">Urgence de vendre</span>
+                    <span style="font-size: 11px; color: #999;">×2</span>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #e0e0e0;">
+                    <span style="font-size: 12px; color: #666; flex: 1;">Confiance établie</span>
+                    <span style="font-size: 11px; color: #999;">×2</span>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid #e0e0e0;">
+                    <span style="font-size: 12px; color: #666; flex: 1;">Compréhension marché</span>
+                    <span style="font-size: 11px; color: #999;">×1</span>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; margin-bottom: 8px;">
+                    <span style="font-size: 12px; color: #666; flex: 1;">Délai défini</span>
+                    <span style="font-size: 11px; color: #999;">×1</span>
+                </div>
+                
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #f0f0f0; color: #666;">0–3 : faible</span>
+                    <span style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #f0f0f0; color: #666;">4–5 : négocier</span>
+                    <span style="font-size: 11px; padding: 3px 8px; border-radius: 20px; background: #1a2744; color: white;">6 : exclusif probable</span>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="section-label">Indicateurs hebdomadaires</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 0.75rem;">
+                <div style="background: #f5f5f5; border-radius: 6px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 11px; color: #999; margin-bottom: 4px;">Estimations</div>
+                    <div style="font-size: 20px; font-weight: 500; color: #1a1a1a;">—</div>
+                </div>
+                <div style="background: #f5f5f5; border-radius: 6px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 11px; color: #999; margin-bottom: 4px;">Taux exclusif</div>
+                    <div style="font-size: 20px; font-weight: 500; color: #1a2744;">70%</div>
+                </div>
+                <div style="background: #f5f5f5; border-radius: 6px; padding: 0.75rem; text-align: center;">
+                    <div style="font-size: 11px; color: #999; margin-bottom: 4px;">Raisons refus</div>
+                    <div style="font-size: 16px; font-weight: 500; color: #1a1a1a;">tracker</div>
+                </div>
+            </div>
+            
+            <div class="rule-box">
+                <p><strong>Règle fondamentale (Sharran) :</strong> Tu ne convertis pas plus en convainquant mieux. Tu convertis plus en <strong>éliminant les mauvais scénarios dès le départ.</strong></p>
+                <p><strong>Règle Kravitz :</strong> C'est la <strong>répétition du script</strong> qui crée la confiance.</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="footer">
+        <p>Playbook Master v2 — Agent immobilier Paris 19e</p>
+        <p>Sharran Srivatsaa · Andrew Undem · Jackie Kravitz</p>
+        <p style="margin-top: 0.5rem;">Hors-ligne — fonctionne sans connexion Internet</p>
+    </div>
+</div>
+
+<button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Mode sombre">🌙</button>
+
+<script>
+    // Vérifier si Service Worker est supporté
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+            console.log('SW registration failed:', err);
+        });
+    }
+    
+    // Tab switching avec event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('nav-btn')) {
+            const tabName = e.target.getAttribute('data-tab');
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            e.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Objection handling
+        if (e.target.closest('.objection-trigger')) {
+            const trigger = e.target.closest('.objection-trigger');
+            const responses = trigger.nextElementSibling;
+            const arrow = trigger.querySelector('.objection-arrow');
+            
+            const isOpen = responses.classList.contains('open');
+            responses.classList.toggle('open');
+            arrow.textContent = isOpen ? '▾' : '▴';
+        }
+    });
+    
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+    
+    // Load dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    // Prevent unwanted selections
+    document.addEventListener('selectstart', function(e) {
+        if (e.target.closest('.objection-trigger, .nav-btn')) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>
